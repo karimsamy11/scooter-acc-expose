@@ -1,0 +1,50 @@
+{
+ "pi5.jpg": {
+  "title": "File:Raspberry Pi 5 SBC.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Raspberry_Pi_5_SBC.jpg",
+  "artist": "SimonWaldherr",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "kb": 212
+ },
+ "hailo.jpg": {
+  "title": "File:Raspberry Pi 5 Hailo AI Accelerator Module.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Raspberry_Pi_5_Hailo_AI_Accelerator_Module.jpg",
+  "artist": "RetroEditor",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "kb": 198
+ },
+ "camera.jpg": {
+  "title": "File:Raspberry Pi with Camera Module.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Raspberry_Pi_with_Camera_Module.jpg",
+  "artist": "ZippeyKeys12",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "kb": 133
+ },
+ "nucleo.jpg": {
+  "title": "File:Nucleo-H755ZI-Q board.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Nucleo-H755ZI-Q_board.jpg",
+  "artist": "Frans",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "kb": 268
+ },
+ "radar.jpg": {
+  "title": "File:An automotive-grade 60GHz 4D imaging radar sensor..jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:An_automotive-grade_60GHz_4D_imaging_radar_sensor..jpg",
+  "artist": "Amyreed444",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "kb": 136
+ },
+ "escooter_berlin.jpg": {
+  "title": "File:E-Scooter in Berlin-Mitte.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:E-Scooter_in_Berlin-Mitte.jpg",
+  "artist": "Jörg Fuhrmann (Intermerker)",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "kb": 649
+ }
+}
