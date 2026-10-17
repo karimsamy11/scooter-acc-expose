@@ -1,0 +1,488 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="Scooter ACC Drive Assist: adaptive cruise control for standing e-scooters. Commercial exposé."><style>:root{color-scheme:light}img{max-width:100%}[hidden]{display:none!important}@page{size:A4;margin:11mm 10mm}@media print{body{font-size:13.5px;padding-inline:0}.bar{position:static}h1{font-size:54px}h2{font-size:36px}h3{font-size:19px}.lead{font-size:16px}section{padding-block:26px}.sec-head{grid-template-columns:56px 1fr!important;margin-bottom:14px;break-after:avoid}.sec-head p{grid-column:2!important}h2,h3{break-after:avoid}.grid2{grid-template-columns:1fr 1fr!important}.grid3,.behav,.ask{grid-template-columns:repeat(3,1fr)!important}.model{grid-template-columns:.9fr 1.1fr!important}.road{grid-template-columns:repeat(6,1fr)!important}.readout{grid-template-columns:repeat(5,1fr)!important}.panel,.fact,.behav div,.ask div,.stage,.model,table,.flow,.lanebox{break-inside:avoid}.replay,.copy,.reset,.toc,.pdfbtn{display:none!important}.fact .n{font-size:34px}.hero{padding-block:20px 10px}}.pdfbtn{display:inline-block;background:var(--road-blue);color:#fff;text-decoration:none;font-weight:600;padding:8px 16px;border-radius:7px}</style></head><body>
+<title>Scooter ACC Exposé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --road-blue:#005387; --road-blue-ink:#00436d; --warn:#F0CA00; --warn-ink:#6b5a00; --hazard:#C1121C; --ok:#1d7a3a;
+  --bg:#F5F6F4; --surface:#FFFFFF; --ink:#16191B; --ink-2:#4A5157; --muted:#79828A; --rule:#D9DDDF;
+  --lane:#2B2F32; --lane-mark:#F5F6F4; --zone:#005387; --chip:#E7EEF4;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif; --body:"Barlow","Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){color-scheme:dark;
+    --road-blue:#5AA8E0; --road-blue-ink:#8cc4ec; --warn:#F0CA00; --warn-ink:#F0CA00; --hazard:#FF6B6B; --ok:#5fcf86;
+    --bg:#15181A; --surface:#1D2124; --ink:#ECEEEF; --ink-2:#B5BCC1; --muted:#8C949A; --rule:#30363A;
+    --lane:#0E1012; --lane-mark:#C9CDD0; --zone:#5AA8E0; --chip:#22303B;}
+}
+:root[data-theme="dark"]{color-scheme:dark;
+  --road-blue:#5AA8E0; --road-blue-ink:#8cc4ec; --warn:#F0CA00; --warn-ink:#F0CA00; --hazard:#FF6B6B; --ok:#5fcf86;
+  --bg:#15181A; --surface:#1D2124; --ink:#ECEEEF; --ink-2:#B5BCC1; --muted:#8C949A; --rule:#30363A;
+  --lane:#0E1012; --lane-mark:#C9CDD0; --zone:#5AA8E0; --chip:#22303B;}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);margin:0;padding-inline:clamp(16px,4vw,48px);padding-block:0 64px;font-variant-numeric:tabular-nums}
+a{color:var(--road-blue)} a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-0.005em;text-wrap:balance;margin:0}
+h1{font-size:clamp(46px,7.4vw,92px)}
+h2{font-size:clamp(34px,4.6vw,56px)}
+h3{font-size:24px;font-weight:600}
+p{margin:0;max-width:66ch}
+.lead{font-size:clamp(19px,2vw,22px);line-height:1.5;color:var(--ink-2);max-width:56ch}
+.small{font-size:14px;color:var(--muted)}
+.src{font-size:13px;color:var(--muted)}
+.src a{color:inherit}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule);margin-inline:calc(-1*clamp(16px,4vw,48px));padding:10px clamp(16px,4vw,48px)}
+.bar .wrap{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:20px;display:flex;align-items:center;gap:10px}
+.sign{width:26px;height:26px;border-radius:5px;background:var(--road-blue);display:grid;place-items:center}
+.sign svg{width:18px;height:18px}
+.toc{display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
+.toc a{text-decoration:none;color:var(--ink-2)} .toc a:hover{color:var(--road-blue)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr;gap:28px;padding-block:44px 28px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:15px;color:var(--ink-2)}
+.hero .meta b{color:var(--ink);font-weight:600}
+.lanebox{background:var(--lane);border-radius:14px;padding:18px 18px 12px;color:#ECEEEF}
+.lanebox svg{display:block;width:100%;height:auto}
+.readout{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px;font-size:13px;color:#B5BCC1}
+.readout div{display:flex;flex-direction:column}
+.readout b{font-family:var(--display);font-size:24px;color:#F5F6F4;font-weight:600}
+.state-pill{align-self:flex-start;padding:2px 10px;border-radius:99px;font-weight:600;font-size:14px;background:#2f4a5e;color:#e6f2fb}
+.state-pill.warn{background:var(--warn);color:#1a1600}
+.lanecap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:12.5px;color:#9aa3a9}
+.replay{background:none;border:1px solid #5b646a;color:#e6e9eb;border-radius:6px;padding:3px 10px;font:inherit;font-size:12.5px;cursor:pointer}
+
+/* sections */
+section{padding-block:56px;border-top:1px solid var(--rule)}
+.sec-head{display:grid;grid-template-columns:64px 1fr;gap:6px 18px;align-items:baseline;margin-bottom:26px}
+.sec-no{font-family:var(--display);font-weight:600;font-size:22px;color:var(--road-blue);border:2px solid var(--road-blue);border-radius:6px;width:46px;height:34px;display:grid;place-items:center}
+.sec-head p{grid-column:2}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media (max-width:860px){.grid2,.grid3{grid-template-columns:1fr}.readout{grid-template-columns:repeat(3,minmax(0,1fr))}.sec-head{grid-template-columns:1fr}.sec-head p{grid-column:1}}
+
+.fact{border-top:3px solid var(--road-blue);padding-top:12px}
+.fact .n{font-family:var(--display);font-size:44px;font-weight:700;line-height:1}
+.fact p{font-size:15.5px;color:var(--ink-2);margin-top:6px}
+.fact.warnf{border-top-color:var(--warn)}
+.fact.hz{border-top-color:var(--hazard)}
+
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px}
+.panel h3{margin-bottom:8px}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{fill:var(--ink-2);font:13px var(--body)}
+.chart .lbl{fill:var(--ink);font-weight:600}
+.chart .axis{stroke:var(--rule)}
+
+.behav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media (max-width:860px){.behav{grid-template-columns:1fr}}
+.behav div{padding:18px;border-radius:10px;background:var(--chip)}
+.behav h3{font-size:22px;margin-bottom:6px}
+.behav p{font-size:15.5px;color:var(--ink-2)}
+.tag{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:99px;margin-top:10px;background:var(--surface);color:var(--ink-2);border:1px solid var(--rule)}
+
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-top:8px}
+.flow .node{flex:1 1 150px;border:1.5px solid var(--rule);border-radius:9px;padding:12px 14px;background:var(--surface);font-size:14.5px}
+.flow .node b{display:block;font-family:var(--display);font-size:19px;font-weight:600;margin-bottom:2px}
+.flow .node.pi{border-color:var(--road-blue)} .flow .node.mcu{border-color:var(--ink)} .flow .node.off{border-style:dashed;color:var(--muted)}
+
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;color:var(--ink-2);font-size:13.5px}
+.tblwrap{overflow-x:auto}
+.ok{color:var(--ok);font-weight:600} .no{color:var(--hazard);font-weight:600} .tbd{color:var(--warn-ink);font-weight:600}
+
+/* profit model */
+.model{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:28px}
+@media (max-width:860px){.model{grid-template-columns:1fr}}
+.ctrl{display:grid;gap:14px}
+.ctrl label{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:15px}
+.ctrl output{font-family:var(--display);font-size:20px;font-weight:600}
+.ctrl input{grid-column:1/-1;accent-color:var(--road-blue);width:100%}
+.ctrl .hint{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.kpis div{border-left:3px solid var(--road-blue);padding-left:10px}
+.kpis b{display:block;font-family:var(--display);font-size:28px;line-height:1.1}
+.kpis span{font-size:13px;color:var(--muted)}
+.assume{margin-top:14px;padding:12px 14px;border-radius:9px;background:var(--chip);font-size:14px;color:var(--ink-2)}
+.reset{margin-top:6px;background:var(--surface);border:1px solid var(--rule);color:var(--ink);border-radius:7px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+
+.road{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;margin-top:8px}
+@media (max-width:860px){.road{grid-template-columns:1fr 1fr}}
+.stage{padding:14px 12px 12px;border-top:6px solid var(--rule);font-size:14px}
+.stage b{display:block;font-family:var(--display);font-size:19px;font-weight:600}
+.stage.now{border-top-color:var(--road-blue)}
+.stage .gate{display:block;margin-top:8px;font-size:12.5px;color:var(--muted)}
+
+.ask{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media (max-width:860px){.ask{grid-template-columns:1fr}}
+.ask div{border:2px solid var(--road-blue);border-radius:10px;padding:18px}
+.ask h3{margin-bottom:6px}
+.contact{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:22px;font-size:17px}
+.contact code{font:600 17px var(--body);background:var(--chip);padding:6px 10px;border-radius:7px;user-select:all}
+.copy{background:var(--road-blue);color:#fff;border:0;border-radius:7px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
+.refs{columns:2 340px;column-gap:32px;font-size:13.5px;color:var(--ink-2);padding-left:20px}
+.refs li{break-inside:avoid;margin-bottom:6px}
+.disclaimer{margin-top:22px;padding:14px 16px;border-left:4px solid var(--warn);background:var(--surface);font-size:14.5px;color:var(--ink-2)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="bar"><div class="wrap">
+  <div class="brand"><span class="sign" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="7" cy="18" r="3" fill="none" stroke="#fff" stroke-width="2"/><circle cx="18" cy="18" r="3" fill="none" stroke="#fff" stroke-width="2"/><path d="M7 18h8l-2-12h3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Scooter ACC Drive Assist</div>
+  <nav class="toc" aria-label="Sections"><a href="#problem">Problem</a><a href="#solution">Solution</a><a href="#proof">Proof</a><a href="#market">Market</a><a href="#business">Business</a><a href="#profit">Profit</a><a href="#impact">Impact</a><a href="#roadmap">Roadmap</a><a href="#ask">Contact</a></nav>
+</div></header>
+
+<main class="wrap">
+<!-- HERO -->
+<div class="hero">
+  <div style="display:grid;gap:18px">
+    <h1>Keeps the gap.<br>Leaves the brakes to the rider.</h1>
+    <p class="lead">Adaptive cruise control for standing e-scooters. A camera and radar watch the road ahead. The system holds a safe distance by limiting the motor, caps speed at the legal 20&nbsp;km/h, and warns the rider before a collision. It never brakes on its own.</p>
+    <div class="meta"><span><b>Exposé</b> for fleet operators, scooter makers and early investors</span><span><b>Status</b> proof of concept in simulation, v0.2</span><span><b>October 2026</b></span></div>
+    <div><a class="pdfbtn" href="Scooter_ACC_Expose.pdf">Download the PDF (10 pages, A4)</a></div>
+  </div>
+  <figure class="lanebox" style="margin:0" aria-label="Animated top view of an e-scooter following a vehicle that brakes hard">
+    <svg id="lane" viewBox="0 0 1000 170" role="img" aria-labelledby="laneTitle"><title id="laneTitle">Top view of a bike lane. The e-scooter keeps a safe-gap zone to the vehicle ahead; when the vehicle brakes hard the zone shrinks and turns yellow as the warning fires.</title></svg>
+    <div class="readout" aria-live="off">
+      <div>time<b id="r-t">0.0 s</b></div><div>speed<b id="r-v">14 km/h</b></div><div>gap<b id="r-g">16.0 m</b></div><div>time to collision<b id="r-ttc">&gt;12 s</b></div><div>status<span class="state-pill" id="r-s">Following</span></div>
+    </div>
+    <figcaption class="lanecap"><span>Real data from our simulation of scenario S2: the vehicle ahead brakes at 8&nbsp;s. Without rider braking, contact would follow at 17.4&nbsp;s. The warning fires at 14.0&nbsp;s.</span><button class="replay" id="replay" type="button">Replay</button></figcaption>
+  </figure>
+</div>
+
+<!-- SUMMARY -->
+<section id="summary" aria-labelledby="h-sum">
+  <div class="sec-head"><span class="sec-no">01</span><h2 id="h-sum">The short version</h2></div>
+  <div class="grid3">
+    <div class="fact hz"><span class="n">16,496</span><p>e-scooter accidents with injuries in Germany in 2025, up 38.1&nbsp;% in one year. 38 people died.</p></div>
+    <div class="fact warnf"><span class="n">3.4 s</span><p>of warning before contact in our hard-braking scenario. The previous version gave none.</p></div>
+    <div class="fact"><span class="n">25 / 25</span><p>safety tests pass, run automatically on every change. The three safety gaps found earlier are fixed.</p></div>
+  </div>
+  <p style="margin-top:26px">We have found no product that offers forward cruise control on a kick scooter. Chinese makers fit radar to e-bikes for rear warnings, and sharing operators use cameras against sidewalk riding. Our system adds forward distance keeping, with the rider always in command and an independent safety chip checking every decision.</p>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem" aria-labelledby="h-prob">
+  <div class="sec-head"><span class="sec-no">02</span><h2 id="h-prob">More scooters, more crashes</h2><p class="lead">Police-recorded e-scooter accidents in Germany grew 75&nbsp;% from 2023 to 2025. Excessive speed and errors in dense traffic are among the leading causes.</p></div>
+  <div class="grid2">
+    <div class="panel"><h3>Accidents with personal injury</h3><svg class="chart" id="ch-acc" viewBox="0 0 460 230" role="img" aria-label="Bar chart: 9,425 in 2023, 11,944 in 2024, 16,496 in 2025"></svg></div>
+    <div class="panel"><h3>People killed</h3><svg class="chart" id="ch-dead" viewBox="0 0 460 230" role="img" aria-label="Bar chart: 22 in 2023, 27 in 2024, 38 in 2025"></svg></div>
+  </div>
+  <div class="grid3" style="margin-top:26px">
+    <div class="fact"><span class="n">53.6 %</span><p>of injured riders in 2025 were under 25.</p></div>
+    <div class="fact"><span class="n">8.4 %</span><p>of rider misconduct was excessive speed. 21.6&nbsp;% was improper use of road or sidewalk.</p></div>
+    <div class="fact"><span class="n">49.1 %</span><p>of accidents happened in cities with 100,000+ inhabitants.</p></div>
+  </div>
+  <p class="src" style="margin-top:16px">Source: Statistisches Bundesamt (Destatis), press releases N049 (July 2026) and N040 (July 2025).</p>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution" aria-labelledby="h-sol">
+  <div class="sec-head"><span class="sec-no">03</span><h2 id="h-sol">What the system does</h2><p class="lead">Three behaviours, each tested in software, and one rule above them all: the rider's brake always wins.</p></div>
+  <div class="behav">
+    <div><h3>Keeps a safe gap</h3><p>The gap grows with speed: 3&nbsp;m plus 2&nbsp;seconds of travel. Inside that gap the motor gets no extra power.</p><span class="tag">REQ-002 · tested</span></div>
+    <div><h3>Stays legal</h3><p>Set speed is capped at 20&nbsp;km/h, the German limit for e-scooters. At or above it, the motor gets no extra power.</p><span class="tag">REQ-012 · tested</span></div>
+    <div><h3>Warns early</h3><p>When time to collision drops below 3&nbsp;seconds, the rider hears and sees a warning. It works even after the rider has braked.</p><span class="tag">REQ-014 · tested, threshold provisional</span></div>
+  </div>
+  <h3 style="margin-top:36px">How it is built</h3>
+  <div class="flow" role="list">
+    <div class="node" role="listitem"><b>Sensors</b>Forward camera, FMCW radar, GNSS, IMU, wheel encoder</div>
+    <div class="node pi" role="listitem"><b>Raspberry Pi 5 + AI HAT+</b>Object detection, radar–camera fusion, logging. Not trusted with the motor.</div>
+    <div class="node mcu" role="listitem"><b>STM32 safety chip</b>Checks every message, latches faults, enforces limits, gives the brake priority.</div>
+    <div class="node off" role="listitem"><b>Motor controller</b>Disabled in this version. Only through a documented manufacturer interface.</div>
+  </div>
+  <p class="small" style="margin-top:12px">Stale sensor data, a missed heartbeat, low confidence or a rider brake removes motor authority in the same 20&nbsp;ms control cycle.</p>
+</section>
+
+<!-- PROOF -->
+<section id="proof" aria-labelledby="h-proof">
+  <div class="sec-head"><span class="sec-no">04</span><h2 id="h-proof">Evidence, not promises</h2><p class="lead">Every number here comes from code that anyone on the team can rerun. Hardware results come later, at the bench-test stage.</p></div>
+  <div class="grid2">
+    <div class="panel"><h3>The warning window</h3><p class="small">Time to collision in scenario S2. The yellow band is when the rider is warned.</p><svg class="chart" id="ch-ttc" viewBox="0 0 460 250" role="img" aria-label="Line chart of time to collision falling below 3 seconds at 14.0 s, warning band until contact at 17.4 s"></svg></div>
+    <div class="panel"><h3>Before and after the fixes</h3>
+      <div class="tblwrap"><table>
+        <thead><tr><th>Scenario</th><th>v0.1.0</th><th>v0.2 today</th></tr></thead>
+        <tbody>
+          <tr><td>Sensor fault, then rider presses brake and engage</td><td class="no">Accelerates again</td><td class="ok">Stays in safe fault mode</td></tr>
+          <tr><td>Set speed 30&nbsp;km/h on an open road</td><td class="no">Reaches 21.2&nbsp;km/h</td><td class="ok">Stays below 20&nbsp;km/h</td></tr>
+          <tr><td>Vehicle ahead brakes hard</td><td class="no">No warning</td><td class="ok">Warning 3.4&nbsp;s before contact</td></tr>
+          <tr><td>Sensor data goes stale</td><td class="ok">Motor power cut</td><td class="ok">Motor power cut at 10.14&nbsp;s</td></tr>
+        </tbody></table></div>
+      <p class="small" style="margin-top:12px">Simulation with an illustrative vehicle model, not a real-world stopping test. 25 of 25 tests pass in continuous integration on Python 3.11.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section id="market" aria-labelledby="h-mkt">
+  <div class="sec-head"><span class="sec-no">05</span><h2 id="h-mkt">Where we fit</h2><p class="lead">Others warn about what is behind the rider or catch riders on the sidewalk. Nobody we found keeps the gap ahead on a kick scooter.</p></div>
+  <div class="panel"><svg class="chart" id="ch-pos" viewBox="0 0 960 400" role="img" aria-label="Positioning map: what each system looks at versus what it does"></svg></div>
+  <div class="grid2" style="margin-top:26px">
+    <div><h3>Why now</h3>
+      <ul style="padding-left:20px;margin:8px 0 0;color:var(--ink-2)">
+        <li>Accidents are rising fast, and cities and insurers want them down.</li>
+        <li>Edge AI has become efficient: a 2026 benchmark measured Hailo-8 as the most energy-efficient accelerator for large YOLO models on a Raspberry Pi&nbsp;5.</li>
+        <li>Chinese makers have industrialised two-wheeler radar on e-bikes since 2024, so components exist at scale.</li>
+        <li>Sharing operators already pay for camera-based rider safety.</li>
+      </ul></div>
+    <div><h3>Market size, handled with care</h3>
+      <p style="color:var(--ink-2)">Commercial reports put micromobility in 2025 anywhere between USD&nbsp;42&nbsp;bn and 198&nbsp;bn, and e-scooters alone at USD&nbsp;47.4&nbsp;bn. These numbers disagree by a factor of 4.7, so we use them as context only. The business case below is built bottom-up from units and prices you can change.</p></div>
+  </div>
+  <p class="src" style="margin-top:14px">Sources: Segway press release (CES 2026); NIU Q4 2023 earnings call; The Paper, 14 Mar 2025; TechCrunch, 13 Jul 2022; Suchý &amp; Turčaník, Sci. Rep. 2026; IMARC and Grand View Research listings, accessed 17 Oct 2026.</p>
+</section>
+
+<!-- BUSINESS -->
+<section id="business" aria-labelledby="h-biz">
+  <div class="sec-head"><span class="sec-no">06</span><h2 id="h-biz">Business model</h2><p class="lead">We start where safety already has a budget: shared fleets in the EU. Germany first, because its rules are clear and strict.</p></div>
+  <div class="grid3">
+    <div class="panel"><h3>Sharing operators</h3><p style="color:var(--ink-2)">A retrofit kit plus a yearly software and data service. Fewer crashes and less damage, proof of speed compliance for city permits.</p><span class="tag">first customers</span></div>
+    <div class="panel"><h3>Scooter makers</h3><p style="color:var(--ink-2)">License the controller, safety-chip logic and test evidence. The maker builds the hardware at volume, often in China.</p><span class="tag">scale</span></div>
+    <div class="panel"><h3>Insurers and cities</h3><p style="color:var(--ink-2)">Anonymised warning and near-miss statistics for risk pricing and hot-spot maps. No raw video leaves the scooter.</p><span class="tag">later</span></div>
+  </div>
+  <h3 style="margin-top:36px">Getting into the EU market</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Requirement</th><th>What applies</th><th>Our status</th></tr></thead>
+    <tbody>
+      <tr><td>Vehicle rules, Germany</td><td>eKFV: 6–20&nbsp;km/h, operating permit (ABE) and insurance plate</td><td class="ok">20&nbsp;km/h cap done in software. Permit impact to assess.</td></tr>
+      <tr><td>Radio and CE</td><td>Radio Equipment Directive 2014/53/EU for the radar</td><td class="tbd">Module selection</td></tr>
+      <tr><td>Battery</td><td>Regulation (EU) 2023/1542, battery passport from Feb 2027</td><td class="tbd">Scooter maker's duty</td></tr>
+      <tr><td>Camera data</td><td>GDPR (EU) 2016/679</td><td class="ok">Processing on the device, no raw video stored by default</td></tr>
+      <tr><td>Product law</td><td>GPSR 2023/988, Product Liability Directive 2024/2853, AI Act 2024/1689</td><td class="tbd">Legal assessment before road tests</td></tr>
+    </tbody></table></div>
+  <p class="small" style="margin-top:10px">China supplies technology and partners, not customers: kick scooters are banned from public roads in Beijing and other major cities (Beijing rules reaffirmed from 1 May 2026).</p>
+</section>
+
+<!-- PROFIT -->
+<section id="profit" aria-labelledby="h-profit">
+  <div class="sec-head"><span class="sec-no">07</span><h2 id="h-profit">Profit model</h2><p class="lead">A scenario, not a forecast. Move the sliders to test your own assumptions. Every default is a placeholder until supplier quotes and operator interviews replace it.</p></div>
+  <div class="model">
+    <form class="ctrl" id="model" onsubmit="return false">
+      <label for="price">Kit price per scooter<output id="o-price" for="price"></output><input id="price" type="range" min="200" max="900" step="10" value="420"><span class="hint">Retrofit kit sold to a fleet operator.</span></label>
+      <label for="cost">Kit cost per scooter at volume<output id="o-cost" for="cost"></output><input id="cost" type="range" min="150" max="900" step="10" value="260"><span class="hint">Target with a custom board. The prototype parts list costs €715–1,420.</span></label>
+      <label for="svc">Software and data service per scooter and year<output id="o-svc" for="svc"></output><input id="svc" type="range" min="0" max="120" step="2" value="36"><span class="hint">Billed on every installed kit.</span></label>
+      <label for="fix">Fixed costs per year<output id="o-fix" for="fix"></output><input id="fix" type="range" min="200" max="2000" step="25" value="650"><span class="hint">Team, testing, certification, in thousand €.</span></label>
+      <label for="scale">Volume ramp<output id="o-scale" for="scale"></output><input id="scale" type="range" min="25" max="300" step="5" value="100"><span class="hint">100&nbsp;% = 500, 3,000, 10,000, 20,000 and 30,000 kits in years 1–5.</span></label>
+      <button class="reset" type="button" id="reset">Reset to default scenario</button>
+    </form>
+    <div>
+      <div class="kpis">
+        <div><b id="k-margin">–</b><span>gross margin per kit</span></div>
+        <div><b id="k-be">–</b><span>kits per year to break even</span></div>
+        <div><b id="k-y5">–</b><span>operating result in year 5</span></div>
+      </div>
+      <div class="panel" style="padding:14px"><svg class="chart" id="ch-profit" viewBox="0 0 520 260" role="img" aria-label="Five-year operating result per year for the chosen scenario"></svg></div>
+      <div class="assume">Model: result = kits sold × (price − cost) + installed kits × service − fixed costs. Installed kits accumulate with no attrition. Excludes taxes, financing and working capital. These are illustrative assumptions to be tested in hypotheses B1 (willingness to pay) and B3 (cost-down).</div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact" aria-labelledby="h-imp">
+  <div class="sec-head"><span class="sec-no">08</span><h2 id="h-imp">Impact</h2><p class="lead">The goal is fewer injuries without taking control away from the person on the scooter.</p></div>
+  <div class="grid2">
+    <div><h3>Safety</h3><p style="color:var(--ink-2)">Distance keeping and early warnings address speed and reaction errors in dense traffic. The real effect has to be measured in a pilot with a control fleet. We will not claim a crash reduction before that.</p></div>
+    <div><h3>Rider authority</h3><p style="color:var(--ink-2)">No automatic braking, because a standing rider can lose balance. The system only withholds extra power and warns. Brake and cancel always win.</p></div>
+    <div><h3>Young riders</h3><p style="color:var(--ink-2)">More than half of injured riders are under 25. A speed cap and early warnings help the least experienced riders most.</p></div>
+    <div><h3>Privacy</h3><p style="color:var(--ink-2)">Images are processed on the scooter. Only object lists and statistics leave it, so city and insurer data contain no faces.</p></div>
+  </div>
+</section>
+
+<!-- SCOPE + ROADMAP -->
+<section id="roadmap" aria-labelledby="h-road">
+  <div class="sec-head"><span class="sec-no">09</span><h2 id="h-road">Scope and the road to production</h2><p class="lead">Each stage ends at a gate with evidence. We are at stage one.</p></div>
+  <div class="road" role="list">
+    <div class="stage now" role="listitem"><b>1 Concept</b>Simulation, tests, requirements<span class="gate">now</span></div>
+    <div class="stage" role="listitem"><b>2 Lab</b>Safety chip, emulated motor, fault injection<span class="gate">gate: timing measured</span></div>
+    <div class="stage" role="listitem"><b>3 Field</b>Closed test track only<span class="gate">gate: safety review + site approval</span></div>
+    <div class="stage" role="listitem"><b>4 Pilot</b>Custom board, small fleet with a partner<span class="gate">gate: reliability data</span></div>
+    <div class="stage" role="listitem"><b>5 Industrialise</b>Design for manufacture, end-of-line test<span class="gate">gate: yield</span></div>
+    <div class="stage" role="listitem"><b>6 Series</b>Production and field monitoring<span class="gate">gate: field KPIs</span></div>
+  </div>
+  <div class="grid2" style="margin-top:30px">
+    <div><h3>In scope now</h3><p style="color:var(--ink-2)">Control logic, simulation, safety requirements and tests, sensor-data replay, bench test with an emulated motor, offline model training.</p></div>
+    <div><h3>Out of scope now</h3><p style="color:var(--ink-2)">Real motor commands, automatic braking, public-road tests and certification. These need a documented safety review first.</p></div>
+  </div>
+</section>
+
+<!-- ASK -->
+<section id="ask" aria-labelledby="h-ask">
+  <div class="sec-head"><span class="sec-no">10</span><h2 id="h-ask">What we are looking for</h2></div>
+  <div class="ask">
+    <div><h3>A pilot fleet</h3><p style="color:var(--ink-2)">A sharing operator in Germany willing to run a measured pilot with a control group.</p></div>
+    <div><h3>A hardware partner</h3><p style="color:var(--ink-2)">A scooter maker or ODM with eKFV-approved models and a documented motor-controller interface.</p></div>
+    <div><h3>Early funding</h3><p style="color:var(--ink-2)">For the lab and field stages. The amount will be set with the stage-2 budget.</p></div>
+  </div>
+  <div class="contact"><span>Karim Samy</span><code id="mail">eng.karimsamy11@gmail.com</code><button class="copy" id="copy" type="button">Copy email</button><span class="small" id="copied" role="status"></span></div>
+  <div class="disclaimer">This exposé describes a research prototype in simulation. It makes no claim of road legality, ISO compliance, certified safety or validated stopping performance. Market figures are third-party estimates; the profit model is an illustrative scenario.</div>
+  <h3 style="margin-top:36px">Sources</h3>
+  <ol class="refs">
+    <li>Destatis, "38,1 % mehr E-Scooter-Unfälle mit Personenschaden im Jahr 2025," press release N049, Jul. 2026.</li>
+    <li>Destatis, "26,7 % mehr E-Scooter-Unfälle mit Personenschaden im Jahr 2024," press release N040, Jul. 2025.</li>
+    <li>eKFV (Elektrokleinstfahrzeuge-Verordnung), §1 and §2, gesetze-im-internet.de.</li>
+    <li>Segway, radar kit for e-bikes, PR Newswire, Jan. 2026.</li>
+    <li>NIU Technologies, Q4 2023 earnings call (NXT e-bike with rear mmWave radar).</li>
+    <li>The Paper (澎湃新闻), Ninebot and NIU smart riding features, 14 Mar 2025.</li>
+    <li>TechCrunch, "Lime has built its own camera-based sidewalk detection technology," 13 Jul 2022.</li>
+    <li>China Daily, "Beijing mandates helmets for e-bike users, bans scooters," 7 Jan 2026.</li>
+    <li>I. Suchý and M. Turčaník, energy efficiency of YOLOv8 and RT-DETR on edge devices, Sci. Rep. 16, 10908, 2026.</li>
+    <li>IMARC Group and Grand View Research market listings, accessed 17 Oct 2026.</li>
+    <li>EU legal acts: 2014/53/EU, (EU) 2023/1542, (EU) 2016/679, (EU) 2023/988, (EU) 2024/2853, (EU) 2024/1689.</li>
+    <li>Project evidence: repository karimsamy11/scooter-acc-drive-assist-v2 (private), PROJECT_DOCUMENT and MARKET_CHINA_EU.</li>
+  </ol>
+</section>
+</main>
+
+<script>
+(function(){
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, parent, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; if (parent) parent.appendChild(e); return e; };
+  const fmt = n => n.toLocaleString("en-US");
+  const eur = n => (n < 0 ? "−€" : "€") + Math.abs(Math.round(n)).toLocaleString("en-US");
+  const eurM = n => { const a = Math.abs(n); const s = a >= 1e6 ? (a / 1e6).toFixed(2) + " M" : Math.round(a / 1e3) + " k"; return (n < 0 ? "−€" : "€") + s; };
+
+  // ---------- real S2 scenario series (tools/make_figures.py, controller v0.2) ----------
+  const S2 = {t:[0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15,15.5,16,16.5,17,17.4],
+    ttc:[12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,10.45,6.09,5.71,5.4,5.08,4.76,4.43,4.08,3.73,3.36,2.98,2.59,2.18,1.76,1.32,0.86,0.39,0],
+    gap:[16,16.01,16.04,16.08,16.14,16.22,16.31,16.41,16.52,16.64,16.77,16.91,17.06,17.21,17.37,17.54,17.71,17.63,17.05,15.98,14.68,13.41,12.19,11.02,9.88,8.79,7.73,6.71,5.73,4.79,3.88,3.01,2.17,1.36,0.59,0],
+    kmh:[14.4,14.26,14.13,14.02,13.91,13.81,13.72,13.64,13.56,13.49,13.43,13.37,13.32,13.27,13.22,13.18,13.14,13.1,13.07,13.04,12.86,12.54,12.23,11.93,11.64,11.35,11.07,10.79,10.53,10.27,10.01,9.77,9.53,9.29,9.06,9.06],
+    warn:13.98, contact:17.4};
+  const interp = (arr, t) => { const T = S2.t; if (t <= 0) return arr[0]; for (let i = 1; i < T.length; i++) if (t <= T[i]) { const f = (t - T[i-1]) / (T[i] - T[i-1]); return arr[i-1] + f * (arr[i] - arr[i-1]); } return arr[arr.length - 1]; };
+
+  // ---------- hero lane ----------
+  const lane = document.getElementById("lane");
+  const g = el("g", {}, lane);
+  el("rect", {x:0, y:30, width:1000, height:110, rx:8, fill:"#33383c"}, g);
+  el("line", {x1:0, y1:30, x2:1000, y2:30, stroke:"#cfd3d6", "stroke-width":3}, g);
+  el("line", {x1:0, y1:140, x2:1000, y2:140, stroke:"#cfd3d6", "stroke-width":3}, g);
+  const dash = el("line", {x1:0, y1:85, x2:1000, y2:85, stroke:"#cfd3d6", "stroke-width":2, "stroke-dasharray":"24 18", opacity:.55}, g);
+  el("text", {x:14, y:20, fill:"#9aa3a9", "font-size":13, "font-family":"Barlow, sans-serif"}, g, "direction of travel →");
+  const X0 = 150, SCALE = 40; // px per metre
+  const zone = el("rect", {x:X0 + 14, y:56, height:58, rx:6, fill:"#005387", opacity:.55}, g);
+  const zoneTxt = el("text", {y:52, fill:"#cfe3f2", "font-size":13, "font-family":"Barlow, sans-serif"}, g, "safe gap");
+  const lead = el("rect", {y:58, width:46, height:54, rx:7, fill:"#e7e9ea"}, g);
+  const leadTxt = el("text", {y:162, fill:"#9aa3a9", "font-size":13, "font-family":"Barlow, sans-serif", "text-anchor":"middle"}, g, "vehicle ahead");
+  const scoot = el("g", {}, g);
+  el("rect", {x:X0 - 22, y:76, width:40, height:18, rx:6, fill:"#5AA8E0"}, scoot);
+  el("rect", {x:X0 + 6, y:66, width:7, height:38, rx:3, fill:"#5AA8E0"}, scoot);
+  const ring = el("circle", {cx:X0 - 2, cy:85, r:30, fill:"none", stroke:"#F0CA00", "stroke-width":4, opacity:0}, scoot);
+  el("text", {x:X0 - 2, y:162, fill:"#9aa3a9", "font-size":13, "font-family":"Barlow, sans-serif", "text-anchor":"middle"}, g, "e-scooter");
+  const R = {t:document.getElementById("r-t"), v:document.getElementById("r-v"), g:document.getElementById("r-g"), ttc:document.getElementById("r-ttc"), s:document.getElementById("r-s")};
+  function drawLane(t){
+    const gap = interp(S2.gap, t), v = interp(S2.kmh, t), ttc = interp(S2.ttc, t), des = 3 + 2 * v / 3.6;
+    const warn = t >= S2.warn, front = X0 + 14;
+    const zw = Math.max(0, Math.min(des, gap) * SCALE);
+    zone.setAttribute("width", zw); zone.setAttribute("fill", warn ? "#F0CA00" : "#005387"); zone.setAttribute("opacity", warn ? .8 : .55);
+    zoneTxt.setAttribute("x", front + 6); zoneTxt.setAttribute("fill", warn ? "#F0CA00" : "#cfe3f2"); zoneTxt.textContent = warn ? "warning: closing fast" : "safe gap " + des.toFixed(1) + " m";
+    const lx = front + gap * SCALE; lead.setAttribute("x", Math.min(lx, 960)); leadTxt.setAttribute("x", Math.min(lx, 960) + 23);
+    ring.setAttribute("opacity", warn ? (0.55 + 0.45 * Math.sin(t * 12)) : 0);
+    dash.setAttribute("stroke-dashoffset", -(t * v / 3.6 * SCALE) % 42);
+    R.t.textContent = t.toFixed(1) + " s"; R.v.textContent = v.toFixed(0) + " km/h"; R.g.textContent = gap.toFixed(1) + " m";
+    R.ttc.textContent = ttc >= 12 ? ">12 s" : ttc.toFixed(1) + " s";
+    R.s.textContent = warn ? "Warning" : (t >= 9.7 ? "No extra power" : "Following"); R.s.classList.toggle("warn", warn);
+  }
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let start = null, raf = null;
+  const SPEED = 1.6, END = S2.contact;
+  function loop(ts){ if (start === null) start = ts; const t = Math.min(END, (ts - start) / 1000 * SPEED); drawLane(t); if (t < END) raf = requestAnimationFrame(loop); }
+  function play(){ cancelAnimationFrame(raf); start = null; raf = requestAnimationFrame(loop); }
+  drawLane(reduce ? 14.5 : 0);
+  if (!reduce) play();
+  document.getElementById("replay").addEventListener("click", () => reduce ? drawLane(14.5) : play());
+
+  // ---------- bar charts (Destatis) ----------
+  function bars(id, vals, color){
+    const svg = document.getElementById(id), W = 460, H = 230, L = 20, B = 200, top = 26;
+    const max = Math.max(...vals) * 1.15, bw = 90, gapX = (W - L * 2 - bw * 3) / 2;
+    el("line", {x1:L, y1:B, x2:W - L, y2:B, class:"axis"}, svg);
+    vals.forEach((v, i) => {
+      const x = L + i * (bw + gapX), h = (v / max) * (B - top);
+      el("rect", {x, y:B - h, width:bw, height:h, rx:4, fill:color}, svg);
+      el("text", {x:x + bw / 2, y:B - h - 8, "text-anchor":"middle", class:"lbl"}, svg, fmt(v));
+      el("text", {x:x + bw / 2, y:B + 20, "text-anchor":"middle"}, svg, String(2023 + i));
+    });
+  }
+  bars("ch-acc", [9425, 11944, 16496], css("--road-blue"));
+  bars("ch-dead", [22, 27, 38], css("--hazard"));
+
+  // ---------- TTC chart ----------
+  (function(){
+    const svg = document.getElementById("ch-ttc"), W = 460, H = 250, L = 40, Rr = 12, T = 14, B = 210;
+    const x = t => L + t / 18 * (W - L - Rr), y = v => B - Math.min(v, 12) / 12 * (B - T);
+    el("rect", {x:x(S2.warn), y:T, width:x(S2.contact) - x(S2.warn), height:B - T, fill:css("--warn"), opacity:.28}, svg);
+    [0, 3, 6, 9, 12].forEach(v => { el("line", {x1:L, y1:y(v), x2:W - Rr, y2:y(v), class:"axis"}, svg); el("text", {x:L - 8, y:y(v) + 4, "text-anchor":"end"}, svg, v === 12 ? "12+" : String(v)); });
+    [0, 4, 8, 12, 16].forEach(t => el("text", {x:x(t), y:B + 18, "text-anchor":"middle"}, svg, t + " s"));
+    el("line", {x1:L, y1:y(3), x2:W - Rr, y2:y(3), stroke:css("--warn-ink"), "stroke-dasharray":"5 4", "stroke-width":1.5}, svg);
+    el("text", {x:L + 4, y:y(3) - 6}, svg, "warning threshold 3 s");
+    el("polyline", {points:S2.t.map((t, i) => x(t) + "," + y(S2.ttc[i])).join(" "), fill:"none", stroke:css("--road-blue"), "stroke-width":2.5, "stroke-linejoin":"round"}, svg);
+    el("line", {x1:x(8), y1:T, x2:x(8), y2:B, stroke:css("--muted"), "stroke-dasharray":"2 3"}, svg);
+    el("text", {x:x(8) - 4, y:B - 8, "text-anchor":"end"}, svg, "lead brakes");
+    el("text", {x:x(S2.warn) - 4, y:T + 30, "text-anchor":"end", class:"lbl"}, svg, "warning 14.0 s");
+    el("text", {x:x(S2.contact) - 4, y:T + 48, "text-anchor":"end", class:"lbl"}, svg, "contact 17.4 s");
+    el("text", {x:L, y:H - 6}, svg, "time in scenario");
+  })();
+
+  // ---------- positioning map ----------
+  (function(){
+    const svg = document.getElementById("ch-pos"), W = 960, H = 400, L = 150, B = 340, T = 20, Rr = 20;
+    const xs = ["Rear and blind spot", "Location", "Ground and sidewalk", "Forward road users"], ys = ["Detects and warns", "Warns and slows down", "Controls the motor"];
+    const cx = i => L + (i + 0.5) * (W - L - Rr) / 4, cy = j => B - (j + 0.5) * (B - T) / 3;
+    xs.forEach((s, i) => { el("line", {x1:cx(i), y1:T, x2:cx(i), y2:B, class:"axis"}, svg); el("text", {x:cx(i), y:B + 24, "text-anchor":"middle"}, svg, s); });
+    ys.forEach((s, j) => { el("line", {x1:L, y1:cy(j), x2:W - Rr, y2:cy(j), class:"axis"}, svg); el("text", {x:L - 12, y:cy(j) + 4, "text-anchor":"end"}, svg, s); });
+    el("text", {x:L, y:H - 6}, svg, "what the system looks at  ·  vertical: what it does");
+    const C = {cn:css("--hazard"), op:css("--road-blue"), rs:css("--muted")};
+    const items = [
+      ["Segway radar kit, e-bike 2026", 0, 0, "cn", -75, -14], ["NIU NXT, e-bike 2024", 0, 0, "cn", -75, 16],
+      ["Bird, Neuron: location-based", 1, 0, "op", -30, 16], ["Lime Vision 2022", 2, 1, "op", -50, -12], ["Drover AI, Luna pilots", 2, 1, "op", -50, 16],
+      ["Ninebot N3, e-moped 2025", 3, 0, "cn", -60, -12], ["Ren et al. 2025, research", 3, 0, "rs", -60, 16],
+      ["Strässer et al. 2024, research", 3, 2, "rs", -95, 22]];
+    items.forEach(([lab, i, j, grp, dx, dy]) => { const px = cx(i) + dx, py = cy(j) + dy; el("circle", {cx:px, cy:py, r:7, fill:C[grp]}, svg); el("text", {x:px + 12, y:py + 4}, svg, lab); });
+    const sx = cx(3) + 50, sy = cy(2) - 4;
+    el("path", {d:`M${sx} ${sy - 13} L${sx + 4} ${sy - 4} L${sx + 13} ${sy - 4} L${sx + 6} ${sy + 3} L${sx + 9} ${sy + 12} L${sx} ${sy + 6} L${sx - 9} ${sy + 12} L${sx - 6} ${sy + 3} L${sx - 13} ${sy - 4} L${sx - 4} ${sy - 4} Z`, fill:css("--warn"), stroke:css("--ink"), "stroke-width":1}, svg);
+    el("text", {x:sx - 20, y:sy + 5, "text-anchor":"end", class:"lbl"}, svg, "Scooter ACC Drive Assist");
+    const lg = [["Chinese makers", C.cn], ["Sharing operators and suppliers", C.op], ["Research", C.rs]];
+    lg.forEach(([t, c], k) => { el("circle", {cx:L + 10 + k * 230, cy:8, r:6, fill:c}, svg); el("text", {x:L + 22 + k * 230, y:12}, svg, t); });
+  })();
+
+  // ---------- profit model ----------
+  const ids = ["price", "cost", "svc", "fix", "scale"], RAMP = [500, 3000, 10000, 20000, 30000];
+  const defaults = {}; ids.forEach(i => defaults[i] = document.getElementById(i).value);
+  function model(){
+    const v = Object.fromEntries(ids.map(i => [i, +document.getElementById(i).value]));
+    document.getElementById("o-price").textContent = "€" + v.price; document.getElementById("o-cost").textContent = "€" + v.cost;
+    document.getElementById("o-svc").textContent = "€" + v.svc; document.getElementById("o-fix").textContent = "€" + v.fix + " k"; document.getElementById("o-scale").textContent = v.scale + " %";
+    const margin = v.price - v.cost, fixed = v.fix * 1000; let base = 0;
+    const years = RAMP.map(r => { const units = Math.round(r * v.scale / 100); base += units; return {units, res: units * margin + base * v.svc - fixed}; });
+    document.getElementById("k-margin").textContent = eur(margin);
+    document.getElementById("k-be").textContent = margin > 0 ? fmt(Math.ceil(fixed / margin)) : "never";
+    document.getElementById("k-y5").textContent = eurM(years[4].res);
+    const svg = document.getElementById("ch-profit"); while (svg.firstChild) svg.removeChild(svg.firstChild);
+    const W = 520, H = 260, L = 70, Rr = 10, T = 16, B = 220;
+    const vals = years.map(y => y.res), mx = Math.max(1, ...vals), mn = Math.min(0, ...vals), y = s => T + (mx - s) / (mx - mn) * (B - T);
+    const steps = 4; for (let k = 0; k <= steps; k++) { const s = mn + (mx - mn) * k / steps; el("line", {x1:L, y1:y(s), x2:W - Rr, y2:y(s), class:"axis"}, svg); el("text", {x:L - 8, y:y(s) + 4, "text-anchor":"end"}, svg, eurM(s)); }
+    el("line", {x1:L, y1:y(0), x2:W - Rr, y2:y(0), stroke:css("--ink"), "stroke-width":1.2}, svg);
+    const bw = 52, step = (W - L - Rr) / 5;
+    years.forEach((yr, i) => { const x = L + i * step + (step - bw) / 2, top = Math.min(y(0), y(yr.res)), h = Math.abs(y(yr.res) - y(0));
+      el("rect", {x, y:top, width:bw, height:Math.max(h, 1), rx:3, fill: yr.res >= 0 ? css("--road-blue") : css("--hazard")}, svg);
+      el("text", {x:x + bw / 2, y:B + 18, "text-anchor":"middle"}, svg, "Year " + (i + 1));
+      el("text", {x:x + bw / 2, y:B + 34, "text-anchor":"middle"}, svg, fmt(yr.units) + " kits"); });
+  }
+  ids.forEach(i => document.getElementById(i).addEventListener("input", model));
+  document.getElementById("reset").addEventListener("click", () => { ids.forEach(i => document.getElementById(i).value = defaults[i]); model(); });
+  model();
+
+  // ---------- copy email ----------
+  document.getElementById("copy").addEventListener("click", () => {
+    const t = document.getElementById("mail").textContent, msg = document.getElementById("copied");
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById("mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); msg.textContent = "Selected. Press Ctrl+C to copy."; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => msg.textContent = "Copied", fallback); else fallback();
+  });
+})();
+</script>
+</body></html>
