@@ -1,0 +1,41 @@
+name: Request access to the project
+description: Ask to join the Scooter ACC Drive Assist team on GitHub. The owner reviews every request.
+title: "Access request"
+labels: ["access-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest in **Scooter ACC Drive Assist**. Submit this form while signed in to GitHub.
+        Your GitHub account (the one submitting this form) is the account that will be invited. After the owner approves, you get an invitation email from GitHub to the private repository with **write** access.
+        Note: this request is public, so don't put private data in it.
+  - type: input
+    id: name
+    attributes:
+      label: Your name
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: How do you want to contribute?
+      options:
+        - Software / simulation (Python)
+        - Embedded (STM32, CAN-FD)
+        - Perception / AI (camera, radar)
+        - Documentation / research
+        - Business / review only
+    validations:
+      required: true
+  - type: textarea
+    id: note
+    attributes:
+      label: Short note (optional)
+      description: Who referred you, or what you would like to work on.
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Ground rules
+      options:
+        - label: I will keep the work simulation-only and follow CONTRIBUTING.md (no motor/brake actuation, rider's brake always wins).
+          required: true

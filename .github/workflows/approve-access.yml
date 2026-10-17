@@ -1,0 +1,42 @@
+# When the OWNER adds the label "approved" to an access request, invite the request's author
+# (their signed-in GitHub account, not typed text) to the private project repo with write access.
+name: approve-access
+on:
+  issues:
+    types: [labeled]
+permissions:
+  issues: write
+jobs:
+  invite:
+    if: github.event.label.name == 'approved' && github.event.sender.login == 'karimsamy11' && contains(github.event.issue.labels.*.name, 'access-request')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invite requester to the private repo
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.ACCESS_TOKEN }}
+          script: |
+            const user = context.payload.issue.user.login;
+            const res = await github.rest.repos.addCollaborator({
+              owner: 'karimsamy11', repo: 'scooter-acc-drive-assist-v2', username: user, permission: 'push' });
+            core.info(`addCollaborator status ${res.status} for ${user}`);
+      - name: Tell the requester and close the request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const user = context.payload.issue.user.login;
+            await github.rest.issues.createComment({ ...context.repo, issue_number: context.payload.issue.number,
+              body: `Approved. @${user}, an invitation to the private repository has been sent to your GitHub account.\n\n` +
+                    `Accept it here: https://github.com/karimsamy11/scooter-acc-drive-assist-v2/invitations (or from GitHub's email).\n` +
+                    `Then start with CONTRIBUTING.md. Welcome to the team!` });
+            await github.rest.issues.update({ ...context.repo, issue_number: context.payload.issue.number, state: 'closed', state_reason: 'completed' });
+  decline:
+    if: github.event.label.name == 'declined' && github.event.sender.login == 'karimsamy11'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({ ...context.repo, issue_number: context.payload.issue.number,
+              body: 'Thanks for your interest. This request was not approved at this time.' });
+            await github.rest.issues.update({ ...context.repo, issue_number: context.payload.issue.number, state: 'closed', state_reason: 'not_planned' });

@@ -5,6 +5,10 @@ Public exposé for **Scooter ACC Drive Assist**, adaptive cruise control for sta
 - Web version: https://karimsamy11.github.io/scooter-acc-expose/
 - PDF: [Scooter_ACC_Expose.pdf](Scooter_ACC_Expose.pdf)
 
-The engineering project itself is in a separate private repository. Contact: eng.karimsamy11@gmail.com
+The engineering project itself is in a separate private repository.
+
+## Join the team
+Request access here (GitHub sign-in required): https://github.com/karimsamy11/scooter-acc-expose/issues/new?template=access-request.yml
+The owner reviews every request; after approval you receive a GitHub invitation with write access. Contact: eng.karimsamy11@gmail.com
 
 © 2026 Karim Samy. All rights reserved. The profit model in the exposé is an illustrative scenario, not a forecast.
