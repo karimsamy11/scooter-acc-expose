@@ -1,17 +1,42 @@
-# When the OWNER adds the label "approved" to an access request, invite the request's author
-# (their signed-in GitHub account, not typed text) to the private project repo with write access.
+# Access requests for the private project repo.
+# The OWNER approves by replying "approve" (or adding the label "approved") on a request,
+# and declines by replying "decline" (or adding the label "declined").
+# The invite goes to the request's author — their signed-in GitHub account, never typed text.
 name: approve-access
 on:
   issues:
     types: [labeled]
+  issue_comment:
+    types: [created]
 permissions:
   issues: write
 jobs:
-  invite:
-    if: github.event.label.name == 'approved' && github.event.sender.login == 'karimsamy11' && contains(github.event.issue.labels.*.name, 'access-request')
+  decide:
     runs-on: ubuntu-latest
+    # Only the owner can trigger a decision, and only on access-request issues.
+    if: >-
+      github.event.sender.login == 'karimsamy11' &&
+      contains(github.event.issue.labels.*.name, 'access-request') &&
+      github.event.issue.state == 'open'
     steps:
+      - name: Work out the decision
+        id: d
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let decision = '';
+            if (context.eventName === 'issues') {
+              const l = context.payload.label.name;
+              if (l === 'approved') decision = 'approve';
+              if (l === 'declined') decision = 'decline';
+            } else {
+              const body = (context.payload.comment.body || '').trim().toLowerCase();
+              if (/^(approve|approved|accept|accepted|yes)\b/.test(body)) decision = 'approve';
+              if (/^(decline|declined|reject|no)\b/.test(body)) decision = 'decline';
+            }
+            core.setOutput('decision', decision);
       - name: Invite requester to the private repo
+        if: steps.d.outputs.decision == 'approve'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.ACCESS_TOKEN }}
@@ -20,7 +45,8 @@ jobs:
             const res = await github.rest.repos.addCollaborator({
               owner: 'karimsamy11', repo: 'scooter-acc-drive-assist-v2', username: user, permission: 'push' });
             core.info(`addCollaborator status ${res.status} for ${user}`);
-      - name: Tell the requester and close the request
+      - name: Welcome and close
+        if: steps.d.outputs.decision == 'approve'
         uses: actions/github-script@v7
         with:
           script: |
@@ -29,12 +55,11 @@ jobs:
               body: `Approved. @${user}, an invitation to the private repository has been sent to your GitHub account.\n\n` +
                     `Accept it here: https://github.com/karimsamy11/scooter-acc-drive-assist-v2/invitations (or from GitHub's email).\n` +
                     `Then start with CONTRIBUTING.md. Welcome to the team!` });
+            await github.rest.issues.addLabels({ ...context.repo, issue_number: context.payload.issue.number, labels: ['approved'] });
             await github.rest.issues.update({ ...context.repo, issue_number: context.payload.issue.number, state: 'closed', state_reason: 'completed' });
-  decline:
-    if: github.event.label.name == 'declined' && github.event.sender.login == 'karimsamy11'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/github-script@v7
+      - name: Decline and close
+        if: steps.d.outputs.decision == 'decline'
+        uses: actions/github-script@v7
         with:
           script: |
             await github.rest.issues.createComment({ ...context.repo, issue_number: context.payload.issue.number,
