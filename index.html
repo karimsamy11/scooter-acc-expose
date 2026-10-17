@@ -1,5 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="Scooter ACC Drive Assist: adaptive cruise control for standing e-scooters. Commercial exposé."><style>:root{color-scheme:light}img{max-width:100%}[hidden]{display:none!important}@page{size:A4;margin:11mm 10mm}@media print{body{font-size:13.5px;padding-inline:0}.bar{position:static}h1{font-size:54px}h2{font-size:36px}h3{font-size:19px}.lead{font-size:16px}section{padding-block:26px}.sec-head{grid-template-columns:56px 1fr!important;margin-bottom:14px;break-after:avoid}.sec-head p{grid-column:2!important}h2,h3{break-after:avoid}.grid2{grid-template-columns:1fr 1fr!important}.grid3,.behav,.ask{grid-template-columns:repeat(3,1fr)!important}.model{grid-template-columns:.9fr 1.1fr!important}.road{grid-template-columns:repeat(6,1fr)!important}.readout{grid-template-columns:repeat(5,1fr)!important}.panel,.fact,.behav div,.ask div,.stage,.model,table,.flow,.lanebox{break-inside:avoid}.replay,.copy,.reset,.toc,.pdfbtn{display:none!important}.fact .n{font-size:34px}.hero{padding-block:20px 10px}}.pdfbtn{display:inline-block;background:var(--road-blue);color:#fff;text-decoration:none;font-weight:600;padding:8px 16px;border-radius:7px}</style></head><body>
-<title>Scooter ACC Exposé</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="description" content="Scooter ACC Drive Assist: adaptive cruise control for standing e-scooters. Commercial exposé."><style>:root{color-scheme:light}img{max-width:100%}[hidden]{display:none!important}@page{size:A4;margin:11mm 10mm}@media print{body{font-size:13.5px;padding-inline:0}.bar{position:static}h1{font-size:54px}h2{font-size:36px}h3{font-size:19px}.lead{font-size:16px}section{padding-block:26px}.sec-head{grid-template-columns:56px 1fr!important;margin-bottom:14px;break-after:avoid}.sec-head p{grid-column:2!important}h2,h3{break-after:avoid}.grid2{grid-template-columns:1fr 1fr!important}.grid3,.behav,.ask{grid-template-columns:repeat(3,1fr)!important}.bench{grid-template-columns:1fr!important;gap:10px}.bench .panel{padding:12px 14px}.layers{grid-template-columns:repeat(4,1fr)!important}.model{grid-template-columns:.9fr 1.1fr!important}.road{grid-template-columns:repeat(6,1fr)!important}.readout{grid-template-columns:repeat(5,1fr)!important}.tblwrap{overflow:visible!important}.matrix{min-width:0!important;width:100%;table-layout:fixed;font-size:9.5px}.matrix th,.matrix td{padding:5px 4px}.matrix .st{font-size:8.5px;padding:1px 5px;white-space:normal}.matrix th:first-child,.matrix td:first-child{position:static;min-width:0;width:17%;hyphens:auto}.panel,.fact,.behav div,.ask div,.stage,.model,table,.flow,.lanebox,.recruit{break-inside:avoid}.replay,.copy,.reset,.toc,.pdfbtn{display:none!important}.fact .n{font-size:34px}.hero{padding-block:20px 10px}}.pdfbtn{display:inline-block;background:var(--road-blue);color:#fff;text-decoration:none;font-weight:600;padding:8px 16px;border-radius:7px}</style></head><body><title>Scooter ACC Exposé</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap">
@@ -129,6 +128,37 @@ th{font-weight:600;color:var(--ink-2);font-size:13.5px}
 .copy{background:var(--road-blue);color:#fff;border:0;border-radius:7px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
 .refs{columns:2 340px;column-gap:32px;font-size:13.5px;color:var(--ink-2);padding-left:20px}
 .refs li{break-inside:avoid;margin-bottom:6px}
+/* market benchmark */
+.subhead{margin:44px 0 6px;font-size:30px}
+.bench{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:14px}
+@media (max-width:860px){.bench{grid-template-columns:1fr}}
+.bench .panel{display:flex;flex-direction:column;gap:8px}
+.bench dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:14.5px}
+.bench dt{color:var(--muted)} .bench dd{margin:0;color:var(--ink-2)}
+.verdict{font-size:14.5px;padding:8px 10px;border-radius:7px;background:var(--chip);color:var(--ink)}
+.matrix th:first-child,.matrix td:first-child{position:sticky;left:0;background:var(--bg);z-index:1;min-width:190px}
+.matrix{min-width:860px;font-size:14px}
+.matrix td{white-space:normal}
+.st{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap;border:1px solid transparent}
+.st-c{background:var(--road-blue);color:#fff}
+.st-nd{background:transparent;color:var(--muted);border-color:var(--rule)}
+.st-r{background:var(--chip);color:var(--ink)}
+.st-p{background:transparent;color:var(--road-blue);border-color:var(--road-blue);border-style:dashed}
+.st-s{background:transparent;color:var(--ink);border-color:var(--ink)}
+.st-h{background:var(--ok);color:#fff}
+.st-no{background:transparent;color:var(--ink-2);border-color:var(--ink-2)}
+.legend-st{display:flex;flex-wrap:wrap;gap:8px 14px;margin:10px 0 4px;font-size:13px;color:var(--muted)}
+.layers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:12px}
+@media (max-width:860px){.layers{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.layers{grid-template-columns:1fr}}
+.layers .panel h3{font-size:20px;margin-bottom:6px}
+.layers ul{margin:0;padding-left:18px;font-size:14.5px;color:var(--ink-2)}
+.recruit{margin-top:44px;padding:24px;border-radius:12px;background:var(--lane);color:#ECEEEF}
+.recruit h3{font-size:30px;color:#F5F6F4;margin-bottom:8px}
+.recruit p{color:#C9CDD0}
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+.skills span{border:1px solid #5b646a;border-radius:99px;padding:4px 12px;font-size:14px;color:#ECEEEF}
+.joinbtn{display:inline-block;background:#F5F6F4;color:#16191B;text-decoration:none;font-weight:600;padding:9px 16px;border-radius:7px}
 .disclaimer{margin-top:22px;padding:14px 16px;border-left:4px solid var(--warn);background:var(--surface);font-size:14.5px;color:var(--ink-2)}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -145,7 +175,7 @@ th{font-weight:600;color:var(--ink-2);font-size:13.5px}
     <h1>Keeps the gap.<br>Leaves the brakes to the rider.</h1>
     <p class="lead">Adaptive cruise control for standing e-scooters. A camera and radar watch the road ahead. The system holds a safe distance by limiting the motor, caps speed at the legal 20&nbsp;km/h, and warns the rider before a collision. It never brakes on its own.</p>
     <div class="meta"><span><b>Exposé</b> for fleet operators, scooter makers and early investors</span><span><b>Status</b> proof of concept in simulation, v0.2</span><span><b>October 2026</b></span></div>
-    <div><a class="pdfbtn" href="Scooter_ACC_Expose.pdf">Download the PDF (10 pages, A4)</a> <a class="pdfbtn" style="background:var(--surface);color:var(--road-blue);border:2px solid var(--road-blue)" href="https://github.com/karimsamy11/scooter-acc-expose/issues/new?template=access-request.yml">Request to join the team</a></div>
+    <div><a class="pdfbtn" href="Scooter_ACC_Expose.pdf">Download the PDF (A4)</a> <a class="pdfbtn" style="background:var(--surface);color:var(--road-blue);border:2px solid var(--road-blue)" href="https://github.com/karimsamy11/scooter-acc-expose/issues/new?template=access-request.yml">Request to join the team</a></div>
   </div>
   <figure class="lanebox" style="margin:0" aria-label="Animated top view of an e-scooter following a vehicle that brakes hard">
     <svg id="lane" viewBox="0 0 1000 170" role="img" aria-labelledby="laneTitle"><title id="laneTitle">Top view of a bike lane. The e-scooter keeps a safe-gap zone to the vehicle ahead; when the vehicle brakes hard the zone shrinks and turns yellow as the warning fires.</title></svg>
@@ -164,7 +194,7 @@ th{font-weight:600;color:var(--ink-2);font-size:13.5px}
     <div class="fact warnf"><span class="n">3.4 s</span><p>of warning before contact in our hard-braking scenario. The previous version gave none.</p></div>
     <div class="fact"><span class="n">25 / 25</span><p>safety tests pass, run automatically on every change. The three safety gaps found earlier are fixed.</p></div>
   </div>
-  <p style="margin-top:26px">We have found no product that offers forward cruise control on a kick scooter. Chinese makers fit radar to e-bikes for rear warnings, and sharing operators use cameras against sidewalk riding. Our system adds forward distance keeping, with the rider always in command and an independent safety chip checking every decision.</p>
+  <p style="margin-top:26px">In the sources we reviewed, no product documents forward distance keeping on a standing kick scooter. Standing scooters offer cruise control and riding assistance, Chinese makers fit radar to two-wheelers for rear warnings, and researchers have tested forward safety filters. Our design adds forward distance keeping with the rider always in command, supervised by an independent safety chip that is planned for the hardware stage.</p>
 </section>
 
 <!-- PROBLEM -->
@@ -197,7 +227,7 @@ th{font-weight:600;color:var(--ink-2);font-size:13.5px}
     <div class="node mcu" role="listitem"><b>STM32 safety chip</b>Checks every message, latches faults, enforces limits, gives the brake priority.</div>
     <div class="node off" role="listitem"><b>Motor controller</b>Disabled in this version. Only through a documented manufacturer interface.</div>
   </div>
-  <p class="small" style="margin-top:12px">Stale sensor data, a missed heartbeat, low confidence or a rider brake removes motor authority in the same 20&nbsp;ms control cycle.</p>
+  <p class="small" style="margin-top:12px">Stale sensor data, a missed heartbeat, low confidence or a rider brake removes motor authority in the same 20&nbsp;ms control cycle. Status: the control and safety logic runs in simulation today; the sensors, Raspberry Pi and STM32 hardware are planned for the lab stage.</p>
 </section>
 
 <!-- PROOF -->
@@ -221,7 +251,7 @@ th{font-weight:600;color:var(--ink-2);font-size:13.5px}
 
 <!-- MARKET -->
 <section id="market" aria-labelledby="h-mkt">
-  <div class="sec-head"><span class="sec-no">05</span><h2 id="h-mkt">Where we fit</h2><p class="lead">Others warn about what is behind the rider or catch riders on the sidewalk. Nobody we found keeps the gap ahead on a kick scooter.</p></div>
+  <div class="sec-head"><span class="sec-no">05</span><h2 id="h-mkt">Where we fit</h2><p class="lead">Others warn about what is behind the rider, hold a set speed, or catch riders on the sidewalk. None of the products we reviewed documents keeping the gap ahead on a standing kick scooter.</p></div>
   <div class="panel"><svg class="chart" id="ch-pos" viewBox="0 0 960 400" role="img" aria-label="Positioning map: what each system looks at versus what it does"></svg></div>
   <div class="grid2" style="margin-top:26px">
     <div><h3>Why now</h3>
@@ -235,6 +265,138 @@ th{font-weight:600;color:var(--ink-2);font-size:13.5px}
       <p style="color:var(--ink-2)">Commercial reports put micromobility in 2025 anywhere between USD&nbsp;42&nbsp;bn and 198&nbsp;bn, and e-scooters alone at USD&nbsp;47.4&nbsp;bn. These numbers disagree by a factor of 4.7, so we use them as context only. The business case below is built bottom-up from units and prices you can change.</p></div>
   </div>
   <p class="src" style="margin-top:14px">Sources: Segway press release (CES 2026); NIU Q4 2023 earnings call; The Paper, 14 Mar 2025; TechCrunch, 13 Jul 2022; Suchý &amp; Turčaník, Sci. Rep. 2026; IMARC and Grand View Research listings, accessed 17 Oct 2026.</p>
+
+  <!-- ===== Competitor benchmark (verified 17 Oct 2026) ===== -->
+  <h3 class="subhead" id="benchmark">Commercial products we compared</h3>
+  <p style="color:var(--ink-2)">Three products, checked against their official product pages on 17 October 2026. Each card lists what the page states; anything the page does not mention is marked as not documented, which is not proof that the feature is missing.</p>
+  <div class="bench">
+    <div class="panel">
+      <h3>Segway Ninebot F3 Pro D</h3>
+      <dl><dt>Type</dt><dd>Standing e-kick-scooter, about 20&nbsp;km/h, 500&nbsp;W rated, German insurance plate: yes</dd>
+        <dt>Stated</dt><dd>SegRide Intelligent Riding Assist (real-time support by detecting the road and riding behaviour), uphill acceleration and downhill deceleration assistants, traction control (off by default), stability system</dd>
+        <dt>Not documented</dt><dd>Cruise control, radar, camera, forward obstacle detection, distance keeping</dd></dl>
+      <p class="verdict">Riding assistance on a standing scooter. No forward radar-based distance keeping documented.</p>
+      <p class="src"><a href="https://de-de.segway.com/ekickscooter/products/f3-pro-d.html">de-de.segway.com · F3 Pro D</a>, verified 17 Oct 2026</p>
+    </div>
+    <div class="panel">
+      <h3>NIU NQiX 300</h3>
+      <dl><dt>Type</dt><dd>Seated electric moped (L3e), up to 80&nbsp;km/h. Not a standing scooter</dd>
+        <dt>Stated</dt><dd>Rear blind-spot detection that warns of approaching traffic (new for 2026), ABS, traction control, auto-hold on slopes, reverse assist</dd>
+        <dt>Not documented</dt><dd>Camera, forward collision warning, cruise control, adaptive cruise control</dd></dl>
+      <p class="verdict">Radar-based rear warning on a seated moped. Rear blind-spot warning is not forward ACC.</p>
+      <p class="src"><a href="https://global.niu.com/de/product/NQiX-300">global.niu.com · NQiX 300</a>, verified 17 Oct 2026</p>
+    </div>
+    <div class="panel">
+      <h3>LAMAX S7500 Plus</h3>
+      <dl><dt>Type</dt><dd>Standing e-kick-scooter, 25&nbsp;km/h, 350&nbsp;W (600&nbsp;W peak); page states legal operation in the Czech Republic and Slovakia</dd>
+        <dt>Stated</dt><dd>Automatic cruise control: after ten seconds above the set speed it holds the speed so the throttle can be released; can be switched off in the app</dd>
+        <dt>Not documented</dt><dd>Obstacle detection, distance monitoring, radar, camera, collision warning</dd></dl>
+      <p class="verdict">Conventional speed-holding cruise control. Not adaptive cruise control.</p>
+      <p class="src"><a href="https://lamax-electronics.com/en-de/products/lamax-e-scooter-s7500-plus">lamax-electronics.com · S7500 Plus</a>, verified 17 Oct 2026</p>
+    </div>
+  </div>
+
+  <h3 class="subhead" id="research">Research that came before us</h3>
+  <div class="grid2">
+    <div>
+      <p style="color:var(--ink-2)"><b style="color:var(--ink)">Collision Avoidance Safety Filter for an Autonomous E-Scooter using Ultrasonic Sensors</b><br>R. Strässer, M. Seidel, F. Brändle, D. Meister, R. Soloperto, D. Hambach Ferrer and F. Allgöwer. 17th IFAC Symposium on Control in Transportation Systems (CTS 2024); IFAC-PapersOnLine 58(10), 22–28, 2024. arXiv:2403.15116, submitted 22 March 2024.</p>
+      <p style="color:var(--ink-2);margin-top:10px">Several low-cost ultrasonic sensors detect obstacles in front of an autonomous e-scooter. A filter handles measurement noise and missing values, and a gain-scheduled controller limits the commanded velocity to a reduced safe value that keeps a sufficient safety distance. The approach was validated in real-world experiments.</p>
+      <p class="src" style="margin-top:8px"><a href="https://arxiv.org/abs/2403.15116">arxiv.org/abs/2403.15116</a>, checked 17 Oct 2026</p>
+    </div>
+    <div class="panel">
+      <h3>How our concept differs</h3>
+      <ul style="margin:0;padding-left:18px;color:var(--ink-2);font-size:15.5px">
+        <li>Their vehicle drives autonomously and the filter limits its own commanded speed. Ours keeps a human rider in charge: the system only withholds extra motor power and warns.</li>
+        <li>They sense with ultrasonic sensors at short range. We plan forward FMCW radar plus camera detection, for longer range and object classification.</li>
+        <li>They validated on real hardware. We are at the simulation stage.</li>
+      </ul>
+      <p class="verdict" style="margin-top:12px">Forward collision avoidance and speed reduction on e-scooters have already been studied. Our contribution is the rider-in-command combination, not the idea of collision avoidance itself.</p>
+    </div>
+  </div>
+
+  <!-- ===== Comparison matrix ===== -->
+  <h3 class="subhead" id="matrix">Capability comparison</h3>
+  <div class="legend-st" aria-label="Status legend">
+    <span><span class="st st-c">Confirmed</span> stated on the official page</span>
+    <span><span class="st st-nd">Not documented</span> not mentioned; not proof of absence</span>
+    <span><span class="st st-r">Research prototype</span></span>
+    <span><span class="st st-s">Simulation validated</span></span>
+    <span><span class="st st-p">Planned</span></span>
+    <span><span class="st st-h">Hardware validated</span></span>
+  </div>
+  <div class="tblwrap"><table class="matrix">
+    <thead><tr><th>Capability</th><th>Segway F3 Pro D</th><th>NIU NQiX 300</th><th>LAMAX S7500 Plus</th><th>Academic research (Strässer et al. 2024)</th><th>Scooter ACC Drive Assist</th></tr></thead>
+    <tbody>
+      <tr><td>Standing scooter platform</td><td><span class="st st-c">Confirmed</span></td><td><span class="st st-no">No, seated moped</span></td><td><span class="st st-c">Confirmed</span></td><td><span class="st st-r">Research prototype</span> autonomous e-scooter</td><td><span class="st st-p">Planned</span> target platform</td></tr>
+      <tr><td>Forward obstacle detection</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-h">Hardware validated</span> ultrasonic</td><td><span class="st st-p">Planned</span> sensors · logic <span class="st st-s">Simulation validated</span></td></tr>
+      <tr><td>Radar sensing</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-c">Confirmed</span> rear blind spot</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-no">No, ultrasonic</span></td><td><span class="st st-p">Planned</span> forward FMCW</td></tr>
+      <tr><td>Camera-based object detection</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-p">Planned</span></td></tr>
+      <tr><td>Radar–camera sensor fusion</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-p">Planned</span></td></tr>
+      <tr><td>Conventional cruise control</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-c">Confirmed</span> speed holding</td><td><span class="st st-no">Not applicable</span> autonomous vehicle</td><td><span class="st st-s">Simulation validated</span> set-speed tracking</td></tr>
+      <tr><td>Adaptive distance keeping</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-h">Hardware validated</span> safe velocity for safety distance</td><td><span class="st st-s">Simulation validated</span></td></tr>
+      <tr><td>Forward collision warning</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span> (rear warning only)</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-s">Simulation validated</span> REQ-014</td></tr>
+      <tr><td>Motor torque or propulsion limitation</td><td><span class="st st-c">Confirmed</span> slope assistants, traction control (not distance-based)</td><td><span class="st st-c">Confirmed</span> traction control (not distance-based)</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-h">Hardware validated</span> velocity limit</td><td><span class="st st-s">Simulation validated</span> distance- and speed-based</td></tr>
+      <tr><td>Independent safety microcontroller</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-p">Planned</span> STM32G474</td></tr>
+      <tr><td>Offline edge AI</td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-nd">Not documented</span></td><td><span class="st st-p">Planned</span> Pi&nbsp;5 + AI HAT+</td></tr>
+      <tr><td>Hardware validation status</td><td><span class="st st-c">Confirmed</span> series product</td><td><span class="st st-c">Confirmed</span> series product</td><td><span class="st st-c">Confirmed</span> series product</td><td><span class="st st-h">Hardware validated</span> real-world experiments</td><td><span class="st st-s">Simulation validated</span> no hardware yet</td></tr>
+    </tbody></table></div>
+  <p class="small" style="margin-top:8px">Scroll the table sideways on small screens. "Confirmed" for a product means stated on its official page on 17 Oct 2026, not independently tested by us.</p>
+
+  <!-- ===== Gap ===== -->
+  <h3 class="subhead" id="gap">Technology gap: forward distance assistance for standing e-scooters</h3>
+  <div class="grid2">
+    <div>
+      <p style="color:var(--ink-2)">Standing scooters already offer cruise control and intelligent riding assistance. Other electric two-wheelers use radar for warnings. Researchers have explored obstacle avoidance and safety filters on e-scooters.</p>
+      <p style="color:var(--ink-2);margin-top:10px">The sources we reviewed do not yet show a commercially available standing scooter that combines all six capabilities on the right. This is a preliminary research observation, not proof of market exclusivity.</p>
+    </div>
+    <div class="panel">
+      <ul style="margin:0;padding-left:18px;color:var(--ink-2)">
+        <li>Forward radar sensing</li><li>Camera-based object detection</li><li>Radar–camera sensor fusion</li>
+        <li>Adaptive forward distance assistance</li><li>Independent safety supervision</li><li>Offline edge processing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== Differentiation ===== -->
+  <h3 class="subhead" id="architecture">Our proposed architecture</h3>
+  <p style="color:var(--ink-2)">Status per layer: the decision and safety logic is <span class="st st-s">Simulation validated</span>; all hardware is <span class="st st-p">Planned</span>. Nothing below is hardware validated yet.</p>
+  <div class="layers">
+    <div class="panel"><h3>Perception</h3><ul><li>Forward FMCW radar</li><li>Camera</li><li>IMU</li><li>Wheel speed encoder</li><li>GNSS</li></ul><span class="st st-p" style="margin-top:10px">Planned</span></div>
+    <div class="panel"><h3>AI and decision</h3><ul><li>Raspberry Pi&nbsp;5 + edge AI accelerator</li><li>Object detection</li><li>Sensor fusion</li><li>Relative distance and speed</li><li>Time-to-collision estimation</li></ul><span class="st st-p" style="margin-top:10px">Planned</span> <span class="st st-s">TTC logic simulated</span></div>
+    <div class="panel"><h3>Safety</h3><ul><li>Independent STM32 safety controller</li><li>Brake priority</li><li>Watchdog supervision</li><li>Fault detection and latch</li><li>Motor torque limitation</li><li>Fail-safe behaviour</li></ul><span class="st st-s" style="margin-top:10px">Logic simulated</span> <span class="st st-p">STM32 planned</span></div>
+    <div class="panel"><h3>Control philosophy</h3><ul><li>No automatic braking in the current scope</li><li>The rider keeps braking responsibility</li><li>Progressive propulsion limitation, only where validated as safe</li><li>Forward collision warnings</li></ul><span class="st st-s" style="margin-top:10px">Simulation validated</span></div>
+  </div>
+
+  <!-- ===== Regulatory and prior art ===== -->
+  <h3 class="subhead" id="prior-art">Regulation and prior art</h3>
+  <div class="grid2">
+    <div>
+      <p style="color:var(--ink-2)"><b style="color:var(--ink)">Engineering disclaimer.</b> This is an R&amp;D prototype concept. Compliance, functional safety and road legality have not been demonstrated.</p>
+      <p style="color:var(--ink-2);margin-top:10px"><b style="color:var(--ink)">Germany (eKFV).</b> E-scooters need a design speed above 6 and up to 20&nbsp;km/h, an operating permit (ABE) or individual permit, and a valid insurance plate (eKFV §1 and §2). Adding sensors and propulsion control to an approved scooter may affect its permit; this needs assessment with a technical service.</p>
+      <p style="color:var(--ink-2);margin-top:10px"><b style="color:var(--ink)">EN 17128:2020.</b> The European standard for personal light electric vehicles up to 25&nbsp;km/h. It is not tied to a specific EU law, and countries including Germany apply their own national rules. Its test methods are relevant to our validation plan; class definitions are taken from secondary summaries and must be checked against the standard text.</p>
+      <p class="src" style="margin-top:8px"><a href="https://www.gesetze-im-internet.de/ekfv/">gesetze-im-internet.de/ekfv</a>, checked 17 Oct 2026</p>
+    </div>
+    <div class="panel">
+      <h3>Prior-art search still to do</h3>
+      <p style="color:var(--ink-2);font-size:15.5px">We make no claim of patentability or freedom to operate. A dedicated search is recommended before any filing or product decision:</p>
+      <ul style="margin:8px 0 0;padding-left:18px;color:var(--ink-2);font-size:15.5px">
+        <li><a href="https://patents.google.com/">Google Patents</a></li>
+        <li><a href="https://worldwide.espacenet.com/">Espacenet</a> (European Patent Office)</li>
+        <li><a href="https://patentscope.wipo.int/">WIPO PATENTSCOPE</a></li>
+        <li><a href="https://ieeexplore.ieee.org/">IEEE Xplore</a></li>
+        <li><a href="https://scholar.google.com/">Google Scholar</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== Recruitment ===== -->
+  <div class="recruit" id="contribute">
+    <h3>Help build the next generation of scooter safety</h3>
+    <p>We are looking for contributors who want to take this from simulation to a working prototype. Useful experience:</p>
+    <div class="skills"><span>Embedded C/C++ and STM32</span><span>Raspberry Pi and edge AI</span><span>Computer vision</span><span>Radar signal processing</span><span>Sensor fusion</span><span>Control systems</span><span>Functional safety</span><span>Hardware integration and testing</span></div>
+    <a class="joinbtn" href="https://github.com/karimsamy11/scooter-acc-expose/issues/new?template=access-request.yml">Request to join the team</a>
+    <p class="small" style="margin-top:10px;color:#9aa3a9">Sign in to GitHub and submit the short form. Every request is reviewed by the project owner.</p>
+  </div>
 </section>
 
 <!-- BUSINESS -->
@@ -332,6 +494,11 @@ th{font-weight:600;color:var(--ink-2);font-size:13.5px}
     <li>China Daily, "Beijing mandates helmets for e-bike users, bans scooters," 7 Jan 2026.</li>
     <li>I. Suchý and M. Turčaník, energy efficiency of YOLOv8 and RT-DETR on edge devices, Sci. Rep. 16, 10908, 2026.</li>
     <li>IMARC Group and Grand View Research market listings, accessed 17 Oct 2026.</li>
+    <li>Segway, "eKickScooter Ninebot F3 Pro D," official product page de-de.segway.com, verified 17 Oct 2026.</li>
+    <li>NIU, "NQiX 300," official product page global.niu.com/de, verified 17 Oct 2026.</li>
+    <li>LAMAX, "E-Scooter S7500 Plus," official product page lamax-electronics.com/en-de, verified 17 Oct 2026.</li>
+    <li>R. Strässer et al., "Collision avoidance safety filter for an autonomous e-scooter using ultrasonic sensors," IFAC-PapersOnLine 58(10), 22–28, 2024 (CTS 2024); arXiv:2403.15116.</li>
+    <li>EN 17128:2020, Personal light electric vehicles (PLEV): requirements and test methods (scope summarised from secondary sources; to verify against the standard text).</li>
     <li>EU legal acts: 2014/53/EU, (EU) 2023/1542, (EU) 2016/679, (EU) 2023/988, (EU) 2024/2853, (EU) 2024/1689.</li>
     <li>Project evidence: repository karimsamy11/scooter-acc-drive-assist-v2 (private), PROJECT_DOCUMENT and MARKET_CHINA_EU.</li>
   </ol>
