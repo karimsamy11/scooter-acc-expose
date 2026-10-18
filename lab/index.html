@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Engineering Lab</title>
+<meta name="description" content="Challenge the Scooter ACC reference architecture: discuss your design with a local AI and submit an engineering proposal.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://giscus.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' http://127.0.0.1:* http://localhost:*; frame-src https://giscus.app; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="lab.css">
+<script type="module" src="lab.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <a class="brand" href="../"><span class="sign" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="7" cy="18" r="3" fill="none" stroke="#fff" stroke-width="2"/><circle cx="18" cy="18" r="3" fill="none" stroke="#fff" stroke-width="2"/><path d="M7 18h8l-2-12h3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Scooter ACC Drive Assist</a>
+  <nav class="toc" aria-label="Engineering Lab"><a href="#challenge">Challenge</a><a href="#discuss">Discuss with Local AI</a><a href="#proposal">Share your idea</a><a href="#community">Community</a><a href="../">Exposé</a></nav>
+</div></header>
+
+<main id="main" class="wrap">
+
+<div class="hero">
+  <p class="kicker">Engineering Lab</p>
+  <h1>Can you build it better?</h1>
+  <p class="lead">Our design is one way to solve the problem, not the required one. If you see a simpler, safer or cheaper architecture, show us. Talk it through with an AI model running on your own computer, turn the discussion into a proposal, and share it with the team on GitHub.</p>
+  <div class="actions">
+    <a class="btn" href="#discuss">Discuss with Local AI</a>
+    <a class="btn ghost" href="#proposal">Share an idea without AI</a>
+  </div>
+</div>
+
+<section id="challenge" aria-labelledby="h-challenge">
+  <div class="sec-head"><span class="sec-no">1</span><div><h2 id="h-challenge">Challenge our architecture</h2><p>The requirements are fixed. Everything else is open: sensors, processors, algorithms and software.</p></div></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Fixed requirements</h3>
+      <ol class="reqs">
+        <li><b>FR-1</b> Standing electric kick scooter.</li>
+        <li><b>FR-2</b> Detects the road user ahead.</li>
+        <li><b>FR-3</b> Limits motor power to keep a safe gap.</li>
+        <li><b>FR-4</b> Commanded propulsion speed of at most 20&nbsp;km/h.</li>
+        <li><b>FR-5</b> Warns the rider early before a collision.</li>
+        <li><b>FR-6</b> Never brakes on its own.</li>
+        <li><b>FR-7</b> The rider brakes and the rider's brake always wins.</li>
+        <li><b>FR-8</b> Fails safe: bad or stale data removes motor power.</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>Our reference design</h3>
+      <dl class="ref">
+        <dt>Sensors</dt><dd>Forward camera, FMCW radar, GNSS, IMU, wheel encoder</dd>
+        <dt>Perception</dt><dd>Raspberry Pi 5 + AI HAT+: detection, radar–camera fusion. Not trusted with the motor.</dd>
+        <dt>Safety</dt><dd>STM32G474: checks messages, latches faults, enforces limits</dd>
+        <dt>Motor</dt><dd>Disabled. Only through a documented manufacturer interface.</dd>
+      </dl>
+      <p class="small">Simulation only so far: 25 of 25 safety tests pass; no hardware has been built.</p>
+    </div>
+  </div>
+  <div class="questions">
+    <h3>Questions we would like challenged</h3>
+    <ul>
+      <li>Do we need two processors, or can one chip meet the timing and fault-handling needs?</li>
+      <li>Is camera + radar fusion necessary, or would radar alone meet FR-2?</li>
+      <li>Can the safety function be simpler and easier to verify?</li>
+      <li>What is the cheapest design that still meets FR-1 to FR-8?</li>
+    </ul>
+    <p class="small">The AI reads our <a href="knowledge/engineering-brief.md">public engineering brief</a>. It contains no private code or documents.</p>
+  </div>
+</section>
+
+<section id="discuss" aria-labelledby="h-discuss">
+  <div class="sec-head"><span class="sec-no">2</span><div><h2 id="h-discuss">Discuss with Local AI</h2><p>The model runs in <a href="https://ollama.com">Ollama</a> on your computer. Your conversation stays in this browser and your local Ollama. Nothing is sent to us, to GitHub or to any AI company.</p></div></div>
+
+  <div class="conn panel" id="conn">
+    <div class="status" role="status" aria-live="polite"><span class="dot" id="dot" aria-hidden="true"></span><span id="status-text">Not connected.</span></div>
+    <div class="conn-row">
+      <label for="model">Model</label>
+      <select id="model" disabled><option>Connect first</option></select>
+      <button class="btn" id="connect" type="button">Connect to Ollama</button>
+    </div>
+    <details class="adv">
+      <summary>Ollama address</summary>
+      <label for="endpoint">Local address</label>
+      <input id="endpoint" type="text" inputmode="url" spellcheck="false" autocomplete="off" value="http://127.0.0.1:11435">
+      <p class="small">Only local addresses (127.0.0.1, localhost) are accepted. With the default, the lab tries the lab session (port 11435) first, then Ollama's normal port 11434.</p>
+    </details>
+    <div class="help" id="help" hidden></div>
+  </div>
+
+  <details class="setup" id="setup">
+    <summary>Set up Ollama (about 5 minutes)</summary>
+    <div class="setup-body">
+      <p>1. Install Ollama from <a href="https://ollama.com/download">ollama.com/download</a> and download a chat model, once. The 7B model gives the better engineering discussion and needs about 8&nbsp;GB of free memory. On a laptop with a 4&nbsp;GB graphics card it takes a few minutes per answer. The 3B model answers in under a minute there, but its engineering judgement is weaker.</p>
+      <pre><code>ollama pull qwen2.5:7b
+# smaller machines:
+ollama pull qwen2.5:3b</code></pre>
+      <p>2. Start a <b>lab session</b>: a second Ollama server that only this website may use, and only while its window is open. Your normal Ollama is not changed.</p>
+      <div class="os">
+        <details open><summary>Windows (PowerShell)</summary>
+<pre><code>$env:OLLAMA_HOST = "127.0.0.1:11435"
+$env:OLLAMA_ORIGINS = "https://karimsamy11.github.io"
+ollama serve</code></pre></details>
+        <details><summary>macOS (Terminal)</summary>
+<pre><code>OLLAMA_HOST=127.0.0.1:11435 OLLAMA_ORIGINS=https://karimsamy11.github.io ollama serve</code></pre></details>
+        <details><summary>Linux (terminal)</summary>
+<pre><code>OLLAMA_HOST=127.0.0.1:11435 OLLAMA_ORIGINS=https://karimsamy11.github.io ollama serve
+# If Ollama runs as a system service, its models are stored elsewhere.
+# Download the model for the session once, in a second terminal:
+OLLAMA_HOST=127.0.0.1:11435 ollama pull qwen2.5:7b</code></pre></details>
+      </div>
+      <p>3. Press <b>Connect to Ollama</b>. Chrome and Edge ask whether this site may access your local network or apps on your device: choose <b>Allow</b>. It is needed to reach Ollama on your own computer.</p>
+      <p>4. When you are done, press <kbd>Ctrl</kbd>+<kbd>C</kbd> or close the window. The website can no longer reach Ollama.</p>
+      <p class="note"><b>What you allow.</b> While the lab session runs, pages under <code>https://karimsamy11.github.io</code> can use that Ollama server: run, list, download and delete models. Nothing else on your computer is reachable, and the session listens on your own computer only. Do not use <code>0.0.0.0</code> as the address, and do not set <code>OLLAMA_ORIGINS</code> to <code>*</code>.</p>
+      <p><b>Safari, or blocked by your browser?</b> Run the lab from your own computer instead. Ollama already trusts local pages, so step 2 is not needed; your normal Ollama on port 11434 is used:</p>
+      <pre><code>git clone https://github.com/karimsamy11/scooter-acc-expose
+cd scooter-acc-expose
+python -m http.server 8000 --bind 127.0.0.1
+# open http://localhost:8000/lab/</code></pre>
+    </div>
+  </details>
+
+  <div class="chat panel">
+    <div class="log" id="log" role="log" aria-live="polite" aria-label="Conversation">
+      <p class="empty" id="empty">Start with your idea, for example: “Why use a Raspberry Pi and an STM32? A single ESP32-S3 might be enough.”</p>
+    </div>
+    <form class="composer" id="composer">
+      <label class="sr" for="msg">Your message</label>
+      <textarea id="msg" rows="3" maxlength="4000" placeholder="Describe your idea or ask a question" disabled></textarea>
+      <div class="composer-row">
+        <span class="small" id="chat-note">Connect to Ollama to start.</span>
+        <button class="btn ghost" id="clear" type="button">Clear conversation</button>
+        <button class="btn ghost" id="stop" type="button" hidden>Stop</button>
+        <button class="btn" id="send" type="submit" disabled>Send</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section id="proposal" aria-labelledby="h-proposal">
+  <div class="sec-head"><span class="sec-no">3</span><div><h2 id="h-proposal">Share your idea</h2><p>Three questions, a few sentences each. If you use the local AI, it can turn your answers into a full engineering proposal for you. That part is optional.</p></div></div>
+  <form class="editor panel" id="editor" novalidate>
+    <div id="fields"></div>
+    <div class="ai-row">
+      <button class="btn ghost" id="generate" type="button" disabled>Expand with AI</button>
+      <span class="small" id="gen-note" role="status">Optional. Connect the local AI above to add architecture, a requirements check, risks and test suggestions.</span>
+    </div>
+    <details class="review" id="review-box" hidden>
+      <summary>Engineering review drafted by the AI</summary>
+      <p class="small">Architecture, FR-1 to FR-8 check, risks, assumptions and validation suggestions. Read it and edit anything that is wrong before you submit.</p>
+      <label class="check"><input type="checkbox" id="include-review" checked> Include this review in my proposal</label>
+      <label class="sr" for="p-review">Engineering review</label>
+      <textarea id="p-review" rows="14" maxlength="12000"></textarea>
+    </details>
+    <div class="editor-row">
+      <button class="btn" id="submit" type="button">Submit Engineering Proposal</button>
+      <button class="btn ghost" id="copy-md" type="button">Copy as Markdown</button>
+      <button class="btn ghost" id="download-md" type="button">Download .md</button>
+      <button class="btn ghost" id="reset-p" type="button">Clear</button>
+    </div>
+    <p class="small" id="editor-note" role="status"></p>
+  </form>
+</section>
+
+<section id="community" aria-labelledby="h-community">
+  <div class="sec-head"><span class="sec-no">4</span><div><h2 id="h-community">Discuss with the team</h2><p>Proposals and questions live in <a href="https://github.com/karimsamy11/scooter-acc-expose/discussions">GitHub Discussions</a>. The project owner reads every proposal and replies there. Nothing is accepted automatically.</p></div></div>
+  <div id="giscus-slot" class="panel"><p class="small">Comments need a GitHub account. <a href="https://github.com/karimsamy11/scooter-acc-expose/discussions">Open GitHub Discussions</a>.</p></div>
+</section>
+
+<p class="disclaimer">Research prototype in simulation. Nothing on this page or said by the AI is a claim of road legality, ISO compliance, certified safety or validated stopping performance. AI answers can be wrong; check them.</p>
+</main>
+
+<dialog id="consent" aria-labelledby="consent-h">
+  <form method="dialog">
+    <h2 id="consent-h">Submit to GitHub Discussions</h2>
+    <p>GitHub opens in a new tab with your proposal filled in. It is published only when you press <b>Start discussion</b> there, under your GitHub account.</p>
+    <label for="p-title">Title</label>
+    <input id="p-title" type="text" maxlength="100">
+    <ul>
+      <li>The proposal will be <b>public</b>.</li>
+      <li>It contains your answers<span id="consent-review">, and the AI engineering review</span>. Your chat with the AI is <b>not</b> included.</li>
+      <li>Check that it contains nothing confidential.</li>
+    </ul>
+    <label class="check"><input type="checkbox" id="agree"> I have reviewed the proposal and agree to publish it.</label>
+    <p class="small" id="consent-note"></p>
+    <div class="editor-row">
+      <button class="btn ghost" value="cancel">Cancel</button>
+      <button class="btn" id="go" value="go" disabled>Open GitHub</button>
+    </div>
+  </form>
+</dialog>
+</body>
+</html>

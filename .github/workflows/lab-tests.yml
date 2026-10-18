@@ -1,0 +1,20 @@
+# Browser tests for the Engineering Lab (lab/) against mock Ollama servers. No secrets, read-only.
+name: lab-tests
+on:
+  push:
+    paths: ["lab/**", "tests/**", "index.html", ".github/workflows/lab-tests.yml"]
+  pull_request:
+    paths: ["lab/**", "tests/**", "index.html", ".github/workflows/lab-tests.yml"]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run lab tests in headless Chrome
+        run: BROWSER="$(command -v google-chrome)" python tests/run_tests.py
