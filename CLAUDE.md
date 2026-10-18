@@ -18,7 +18,7 @@ This is the **public** repository of Scooter ACC Drive Assist, a research protot
 ## Engineering Lab
 Purpose: invite engineers to challenge the reference architecture ("challenge the architecture, not the developer").
 
-- **Flow:** three questions (idea and why it is better are required; how to test it is optional) → optional AI review → consent dialog → GitHub opens a new Discussion (category `engineering-proposals`) with the proposal filled in. The visitor publishes it under their own account. The chat is never included.
+- **Flow:** three questions (idea and why it is better are required; how to test it is optional) → optional AI review → consent dialog → GitHub opens a new Discussion in the category "Engineering proposals" (slug `engineering-proposals`, created 2026-10-18; renaming it breaks the submit link) with the proposal filled in. The visitor publishes it under their own account. The chat is never included.
 - **AI:** runs in the visitor's own [Ollama](https://ollama.com). No server, no API keys, no cost. The page talks only to loopback addresses (`lab/ollama.js` refuses anything else; CSP `connect-src` allows only `127.0.0.1`/`localhost`). It tries the temporary lab-session port 11435 first, then Ollama's normal port 11434.
 - **Visitor setup** (also on the page): `ollama pull qwen2.5:7b` (or `qwen2.5:3b` on small machines), then a lab session that only this site may use while its window is open: `OLLAMA_HOST=127.0.0.1:11435 OLLAMA_ORIGINS=https://karimsamy11.github.io ollama serve`. Exact origin, never `*`, never `0.0.0.0`. Chrome and Edge then ask for local-network permission.
 - **AI review sections:** Architecture, Requirements check (FR-1 to FR-8, "addressed by …" or "open"), Risks and assumptions, Validation suggestions, Open questions. It never overwrites the visitor's answers and only fills empty ones.
@@ -43,5 +43,4 @@ Purpose: invite engineers to challenge the reference architecture ("challenge th
 - Phones cannot run the local AI; the three-question form works without it.
 - While a lab session runs, every page under `https://karimsamy11.github.io` can use that Ollama (run, download or delete models). The setup text says so; the session ends when its window closes.
 - Small models can still overclaim or be generic; visitors edit the review before submitting, and the owner decides.
-- The Discussions category "Engineering proposals" must exist (created by the owner in the GitHub web UI); without it GitHub asks the visitor to pick a category.
 - giscus comments are prepared in `lab/lab.js` (`GISCUS`) but not configured.
