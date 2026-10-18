@@ -55,7 +55,7 @@ def find_browser() -> str:
 
 
 def run_page(browser: str, url: str, timeout: int = 90) -> dict:
-    with tempfile.TemporaryDirectory() as profile:
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as profile:  # browser may still write while exiting
         if "firefox" in Path(browser).name.lower():
             args = [browser, "--headless", "--no-remote", "--profile", profile, url]
         else:
